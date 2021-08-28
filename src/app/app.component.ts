@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { CrazyFingers, InitialState, State } from './services';
+import { Component } from '@angular/core';
+import { CrazyFingers } from './services';
 
 @Component({
   selector: 'app-root',

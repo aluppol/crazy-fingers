@@ -1,4 +1,4 @@
-import { State } from '../index';
+import { State } from './state.abstract';
 
 export class ProgressState extends State {
   onClick($event: MouseEvent): void {
