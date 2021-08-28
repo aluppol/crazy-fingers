@@ -1,6 +1,11 @@
-<main class="main">
+<main
+  class="main"
+  (click)=" app.onClick($event)"
+  (keydown)="app.onKeyDown($event)"
+>
   <div class="main__text-container">
-    <span class="main__text"></span>
-    <input tabindex="1" type="text" class="main__input">
+    <span class="main__text main__text--wrote">{{app.textChunkWrote}}</span>
+    <span class="main__text main__text--toWrite">{{app.textChunkToWrite}}</span>
+    <input #mainInput tabindex="1" type="text" class="main__input">
   </div>
 </main>
