@@ -13,18 +13,51 @@
   height: 100vh;
   background: linear-gradient(#ececec, #b6b6b6);
 
-  &__input {
-    z-index: -1;
-    @include center;
-  }
-
   &__text-container {
     width: 80%;
     height: 5rem;
     border: 2px solid #555555;
     border-radius: 1rem;
     cursor: text;
-    position: relative;
+    position:relative;
     background: #f8f8f8;
+    overflow: hidden;
+    margin: auto;
+  }
+
+  &__text {
+    font-size: 3rem;
+    white-space: pre;
+    &--wrote {
+      @include center;
+      left: auto;
+      right: 50%;
+      transform: translate(0, -50%);
+      color: grey;
+    }
+
+    &--current {
+      color: #00b704;
+    }
+
+    &--to-write {
+      @include center;
+      transform: translate(0, -50%);
+    }
+
+    &--placeholder {
+      @include center;
+      color: rebeccapurple;
+    }
+  }
+
+  &__tooltip {
+    @include center;
+    transform: translate(-50%, 0);
+    top: calc(50vh + 2.5rem + 1rem);
+    font-size: 2rem;
+    color: #140067;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
   }
 }
