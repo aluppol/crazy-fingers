@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CrazyFingers } from './services';
 
 @Component({
@@ -9,6 +9,15 @@ import { CrazyFingers } from './services';
 export class AppComponent {
   constructor(
     public app: CrazyFingers,
-  ) {
+  ) {}
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    this.app.onKeyDown(event);
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClick(event: MouseEvent) {
+    this.app.onClick(event);
   }
 }

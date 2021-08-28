@@ -7,8 +7,11 @@ export class CrazyFingers implements ICrazyFingers, OnDestroy {
   public score: number;
   public speed: number;
   public maxSpeed: number;
-  public textChunkToWrite = 'test test test test test test test test test test';
-  public textChunkWrote = 'done done done done done done done done done done done done done done';
+  public textChunkToWrite = '';
+  public textChunkWrote = '';
+  public currentSymbol = '';
+  public placeholder = ''
+  public tooltip = '';
 
   public _fullText: string;
   private _currentSymbolIndex: number;
@@ -23,12 +26,12 @@ export class CrazyFingers implements ICrazyFingers, OnDestroy {
     this._currentSymbolIndex = +(localStorage.getItem('CrazyFingers_currentSymbolIndex') ?? 0);
   }
 
-  public onClick($event: MouseEvent): void {
-    this._state.onClick($event);
+  public onClick(event: MouseEvent): void {
+    this._state.onClick(event);
   }
 
-  public onKeyDown($event: KeyboardEvent): void {
-    this._state.onKeyDown($event);
+  public onKeyDown(event: KeyboardEvent): void {
+    this._state.onKeyDown(event);
   }
 
   public setState(newState: IState): void {

@@ -9,4 +9,8 @@ export class ProgressState extends State {
     // TODO implement
   }
 
+  protected _initState(): void {
+    // TODO implement
+  }
+
 }

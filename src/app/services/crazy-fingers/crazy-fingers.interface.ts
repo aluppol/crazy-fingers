@@ -6,6 +6,9 @@ export interface ICrazyFingers {
   score: number;
   speed: number;
   maxSpeed: number;
+  placeholder: string;
+  currentSymbol: string;
+  tooltip: string;
   onKeyDown($event: KeyboardEvent): void;
   onClick($event: MouseEvent): void;
   setState(newState: IState): void;
