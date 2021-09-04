@@ -12,18 +12,17 @@ export class CrazyFingers implements ICrazyFingers, OnDestroy {
   public currentSymbol = '';
   public placeholder = ''
   public tooltip = '';
+  public fullText = '';
+  public currentSymbolIndex = 0;
 
-  public _fullText: string;
-  private _currentSymbolIndex: number;
   private _state: IState;
 
   constructor() {
     this._state = new InitialState(this);
     this.score = +(localStorage.getItem('CrazyFingers_score') ?? 0); //indexedDb
     this.speed = +(localStorage.getItem('CrazyFingers_speed') ?? 0);
-    this._fullText = localStorage.getItem('CrazyFingers_fullText') ?? '';
+    this.fullText = localStorage.getItem('CrazyFingers_fullText') ?? '';
     this.maxSpeed = +(localStorage.getItem('CrazyFingers_maxSpeed') ?? 0);
-    this._currentSymbolIndex = +(localStorage.getItem('CrazyFingers_currentSymbolIndex') ?? 0);
   }
 
   public onClick(event: MouseEvent): void {
@@ -41,9 +40,9 @@ export class CrazyFingers implements ICrazyFingers, OnDestroy {
   public ngOnDestroy(): void {
     localStorage.setItem('CrazyFingers_score', `${this.score}`);
     localStorage.setItem('CrazyFingers_speed', `${this.speed}`);
-    localStorage.setItem('CrazyFingers_fullText', this._fullText);
+    localStorage.setItem('CrazyFingers_fullText', this.fullText);
     localStorage.setItem('CrazyFingers_maxSpeed', `${this.maxSpeed}`);
-    localStorage.setItem('CrazyFingers_currentSymbolIndex', `${this._currentSymbolIndex}`);
+    localStorage.setItem('CrazyFingers_currentSymbolIndex', `${this.currentSymbolIndex}`);
   }
 
 }
