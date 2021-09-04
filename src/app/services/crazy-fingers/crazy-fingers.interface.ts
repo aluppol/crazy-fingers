@@ -11,6 +11,7 @@ export interface ICrazyFingers {
   tooltip: string;
   fullText: string;
   currentSymbolIndex: number;
+  textContainerSize: number;
   onKeyDown($event: KeyboardEvent): void;
   onClick($event: MouseEvent): void;
   setState(newState: IState): void;

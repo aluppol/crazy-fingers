@@ -1,9 +1,9 @@
 import { IState, InitialState, ICrazyFingers } from '..';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 // context
 @Injectable({ providedIn: 'root' })
-export class CrazyFingers implements ICrazyFingers, OnDestroy {
+export class CrazyFingers implements ICrazyFingers {
   public score: number;
   public speed: number;
   public maxSpeed: number;
@@ -14,6 +14,7 @@ export class CrazyFingers implements ICrazyFingers, OnDestroy {
   public tooltip = '';
   public fullText = '';
   public currentSymbolIndex = 0;
+  public textContainerSize = 60;
 
   private _state: IState;
 
@@ -36,13 +37,4 @@ export class CrazyFingers implements ICrazyFingers, OnDestroy {
   public setState(newState: IState): void {
     this._state = newState;
   }
-
-  public ngOnDestroy(): void {
-    localStorage.setItem('CrazyFingers_score', `${this.score}`);
-    localStorage.setItem('CrazyFingers_speed', `${this.speed}`);
-    localStorage.setItem('CrazyFingers_fullText', this.fullText);
-    localStorage.setItem('CrazyFingers_maxSpeed', `${this.maxSpeed}`);
-    localStorage.setItem('CrazyFingers_currentSymbolIndex', `${this.currentSymbolIndex}`);
-  }
-
 }
