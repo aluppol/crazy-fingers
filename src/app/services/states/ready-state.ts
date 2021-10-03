@@ -16,7 +16,6 @@ export class ReadyState extends State {
   }
 
   protected _initState(): void {
-    console.log(localStorage.getItem('CrazyFingers_currentSymbolIndex'));
     this._context.placeholder = '';
     this._context.currentSymbolIndex = +(localStorage.getItem('CrazyFingers_currentSymbolIndex') || 0);
     this._context.fullText = localStorage.getItem('CrazyFingers_fullText') || '';

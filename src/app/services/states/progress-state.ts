@@ -1,12 +1,14 @@
 import { State } from './state.abstract';
 import { PauseState } from './pause-state';
 import { CompleteState } from './complete-state';
+import { IKeyDownHandler } from '.';
 
 export class ProgressState extends State {
   private _writtenSymbolsCounter = 0;
   private _writtenSymbolsLimit = 10;
   private _fetchSymbolsCapacity = 10;
   private _fetchingChunkSymbolIndex = this._context.currentSymbolIndex + this._context.textChunkToWrite.length + 1;
+  private _escKeydownHandler!: IKeyDownHandler;
 
   onClick(event: MouseEvent): void {
     // TODO implement
@@ -21,10 +23,6 @@ export class ProgressState extends State {
       this._handleRightInput();
       break;
 
-    case key === 'Pause':
-      this._switchToPause();
-      break;
-
     default:
       this._handleWrongInput();
     }
@@ -32,13 +30,17 @@ export class ProgressState extends State {
 
   protected _initState(): void {
     this._context.tooltip = '';
+    this._escKeydownHandler = this._escKeydownHandlerFunction.bind(this);
+    window.addEventListener('keydown', this._escKeydownHandler);
   }
 
   private _switchToPause(): void {
+    this._onDestroy();
     this._context.setState(new PauseState(this._context));
   }
 
   private _switchToComplete(): void {
+    this._onDestroy();
     this._context.setState(new CompleteState(this._context));
   }
 
@@ -87,6 +89,15 @@ export class ProgressState extends State {
   private _handleWrongInput(): void {
     this._context.tooltip = 'Wrong!';
     setTimeout(() => this._context.tooltip = '', 500);
+  }
+
+  private _escKeydownHandlerFunction(event: KeyboardEvent): void {
+    if (event.key !== 'Escape') return;
+    this._switchToPause();
+  }
+
+  private _onDestroy(): void {
+    window.removeEventListener('keydown', this._escKeydownHandler);
   }
 
 }
