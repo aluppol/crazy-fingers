@@ -34,10 +34,12 @@
       right: 50%;
       transform: translate(0, -50%);
       color: grey;
+      //color: #00b704;
     }
 
     &--current {
-      color: #00b704;
+      //color: #00b704;
+      font-weight: bold;
     }
 
     &--to-write {

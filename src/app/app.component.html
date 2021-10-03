@@ -2,7 +2,7 @@
   <div class="main__text-container">
     <span class="main__text main__text--wrote">{{app.textChunkWrote}}</span>
     <span class="main__text main__text--to-write"><span class="main__text main__text--current">{{app.currentSymbol}}</span>{{app.textChunkToWrite}}</span>
-    <span class="main__text main__text--placeholder">{{app.placeholder}}</span>
+    <span *ngIf="app.placeholder" class="main__text main__text--placeholder">{{app.placeholder}}</span>
   </div>
   <div class="main__tooltip">
     {{app.tooltip}}
