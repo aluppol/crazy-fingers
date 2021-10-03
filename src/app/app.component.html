@@ -1,7 +1,9 @@
 <main class="main">
-  <div class="main__text-container">
+  <div
+    [class]="{'main__text-container': true, 'main__text-container--wrong-input': app.inputFeedback && app.inputFeedback === InputFeedbacks.error, 'main__text-container--right-input': app.inputFeedback && app.inputFeedback === InputFeedbacks.accepted}">
     <span class="main__text main__text--wrote">{{app.textChunkWrote}}</span>
-    <span class="main__text main__text--to-write"><span class="main__text main__text--current">{{app.currentSymbol}}</span>{{app.textChunkToWrite}}</span>
+    <span class="main__text main__text--to-write"><span
+        class="main__text main__text--current">{{app.currentSymbol}}</span>{{app.textChunkToWrite}}</span>
     <span *ngIf="app.placeholder" class="main__text main__text--placeholder">{{app.placeholder}}</span>
   </div>
   <div class="main__tooltip">

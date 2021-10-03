@@ -1,4 +1,4 @@
-export const book = `THE BOY WHO LIVED
+const pureBook = `THE BOY WHO LIVED
 
 Mr. and Mrs. Dursley, of number four, Privet Drive,
 were proud to say that they were perfectly normal,
@@ -14,7 +14,7 @@ very large mustache. Mrs. Dursley was thin and
 blonde and had nearly twice the usual amount of
 neck, which came in very useful as she spent so
 much of her time craning over garden fences, spying
-on the neighbors. The Dursley s had a small son
+on the neighbors. The Dursleys had a small son
 called Dudley and in their opinion there was no finer
 boy anywhere.
 
@@ -15249,3 +15249,6 @@ going to have a lot of fun with Dudley this summer...”
 
 
 Page | 348 Harry Potter and the Philosophers Stone - J.K. Rowling`;
+
+
+export const book = pureBook.replace(/\nPage \| \d* Harry Potter and the Philosophers Stone - J.K. Rowling\n\n\n\n/g, '');

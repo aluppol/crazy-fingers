@@ -1,5 +1,5 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { CrazyFingers } from './services';
+import { Component, HostListener, OnDestroy } from '@angular/core';
+import { CrazyFingers, InputFeedbacks } from './services';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +7,7 @@ import { CrazyFingers } from './services';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnDestroy {
+  public InputFeedbacks = InputFeedbacks;
   constructor(
     public app: CrazyFingers,
   ) {

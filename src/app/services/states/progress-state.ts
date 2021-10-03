@@ -2,6 +2,7 @@ import { State } from './state.abstract';
 import { PauseState } from './pause-state';
 import { CompleteState } from './complete-state';
 import { IKeyDownHandler } from '.';
+import { InputFeedbacks } from '..';
 
 export class ProgressState extends State {
   private _writtenSymbolsCounter = 0;
@@ -9,6 +10,7 @@ export class ProgressState extends State {
   private _fetchSymbolsCapacity = 10;
   private _fetchingChunkSymbolIndex = this._context.currentSymbolIndex + this._context.textChunkToWrite.length + 1;
   private _escKeydownHandler!: IKeyDownHandler;
+  private _timeOut!: ReturnType<typeof setTimeout>;
 
   onClick(event: MouseEvent): void {
     // TODO implement
@@ -17,9 +19,9 @@ export class ProgressState extends State {
   onKeyDown(event: KeyboardEvent): void {
     const { key } = event;
     switch (true) {
-
     case key === this._context.currentSymbol:
     case key === 'Enter' && this._context.currentSymbol === '\u21B5':
+    case key === ' ' && this._context.currentSymbol === '⎵':
       this._handleRightInput();
       break;
 
@@ -61,6 +63,15 @@ export class ProgressState extends State {
   }
 
   private _handleRightInput(): void {
+    if (this._context.inputFeedback === InputFeedbacks.error) {
+      clearTimeout(this._timeOut);
+      this._context.inputFeedback = InputFeedbacks.accepted;
+      this._context.tooltip = '';
+      this._timeOut = setTimeout(() => {
+        this._context.inputFeedback = null as unknown as InputFeedbacks;
+      }, 400);
+    }
+
     this._processWrittenSymbol();
     if (this._context.textChunkToWrite.length === 0) {
       this._switchToComplete();
@@ -70,8 +81,10 @@ export class ProgressState extends State {
   }
 
   private _processWrittenSymbol(): void {
+    if (this._context.currentSymbol === '⎵') this._context.currentSymbol = ' ';
     this._context.textChunkWrote += this._context.currentSymbol;
-    this._context.currentSymbol = this._context.textChunkToWrite.slice(0, 1);
+    const newCurrentSymbol = this._context.textChunkToWrite.slice(0, 1);
+    this._context.currentSymbol = newCurrentSymbol === ' ' ? '⎵' : newCurrentSymbol;
     this._context.currentSymbolIndex++;
     localStorage.setItem('CrazyFingers_currentSymbolIndex', `${this._context.currentSymbolIndex}`);
     this._writtenSymbolsCounter++;
@@ -87,8 +100,13 @@ export class ProgressState extends State {
   }
 
   private _handleWrongInput(): void {
+    this._context.inputFeedback = InputFeedbacks.error;
     this._context.tooltip = 'Wrong!';
-    setTimeout(() => this._context.tooltip = '', 500);
+    clearTimeout(this._timeOut);
+    this._timeOut = setTimeout(() => {
+      this._context.tooltip = '';
+      this._context.inputFeedback = null as unknown as InputFeedbacks;
+    }, 400);
   }
 
   private _escKeydownHandlerFunction(event: KeyboardEvent): void {

@@ -23,6 +23,14 @@
     background: #f8f8f8;
     overflow: hidden;
     margin: auto;
+
+    &--wrong-input {
+      border-color: rgb(255, 0, 0);
+    }
+
+    &--right-input {
+      border-color: rgb(0, 128, 0);
+    }
   }
 
   &__text {

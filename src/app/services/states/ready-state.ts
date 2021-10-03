@@ -1,4 +1,4 @@
-import { book } from '../../statics/books/Book1-ThePhilosopher\'sStone';
+import { book as harryPotterBook } from '../../statics/books/Book1-ThePhilosopher\'sStone';
 import { State } from './state.abstract';
 import { ProgressState } from './progress-state';
 
@@ -28,7 +28,8 @@ export class ReadyState extends State {
         0,
       this._context.currentSymbolIndex,
     );
-    this._context.currentSymbol = this._context.fullText.slice(this._context.currentSymbolIndex, this._context.currentSymbolIndex + 1);
+    const pureCurrentSymbol = this._context.fullText.slice(this._context.currentSymbolIndex, this._context.currentSymbolIndex + 1);
+    this._context.currentSymbol = pureCurrentSymbol === ' ' ? '⎵' : pureCurrentSymbol;
     this._context.textChunkToWrite = this._context.fullText.slice(
       this._context.currentSymbolIndex + 1,
       this._context.currentSymbolIndex + this._context.textContainerSize + 1,
@@ -37,14 +38,15 @@ export class ReadyState extends State {
   }
 
   private _loadDefaultText(): void {
-    const unprocessedText = book;
+    const unprocessedText = harryPotterBook;
     const text = this._filterForAllowedSymbolsOnly(unprocessedText);
     this._context.fullText = text;
   }
 
   private _filterForAllowedSymbolsOnly(text: string): string {
     const regExp = /[A-Za-z0-9\s\.,!?$@()\*\-+=_\/<>;:"'%`~\[\]{}|\\#\^\t\n]/gi;
-    const allowedCharArray = text.match(regExp) || [];
+    const textAfterReplacements =  text.replace(/’/g, '\'').replace(/—/g, '-');
+    const allowedCharArray = textAfterReplacements.match(regExp) || [];
     const stringWithLBr =  allowedCharArray.join('');
     const result = stringWithLBr.replace(/[\t?\n]/g, '\u21B5');
     return result;

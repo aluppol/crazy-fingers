@@ -1,5 +1,6 @@
 import { IState, InitialState, ICrazyFingers } from '..';
 import { Injectable } from '@angular/core';
+import { InputFeedbacks } from '.';
 
 // context
 @Injectable({ providedIn: 'root' })
@@ -14,7 +15,8 @@ export class CrazyFingers implements ICrazyFingers {
   public tooltip = '';
   public fullText = '';
   public currentSymbolIndex = 0;
-  public textContainerSize = 60;
+  public textContainerSize = 100;
+  public inputFeedback!: InputFeedbacks;
 
   private _state: IState;
 
