@@ -1,7 +1,7 @@
 {
   "name": "crazy-fingers",
   "version": "0.0.0",
-  "homepage": "https://github.com/aluppol/crazy-fingers",
+  "homepage": "https://aluppol.github.io/crazy-fingers/",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
