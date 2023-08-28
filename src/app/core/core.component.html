@@ -1,0 +1,12 @@
+<div *ngIf="isDisplayControls; else fullScreen">
+  <cf-header class="header">
+    <cf-menu-btn menu-btn [isMenu]="isMenu"></cf-menu-btn>
+  </cf-header>
+  <cf-menu *ngIf="isMenu" [class]="{'menu': true, 'active':'isMenu'}" (click)="toggleMenu" [isMenu]="isMenu"></cf-menu>
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+<ng-template #fullScreen>
+  <router-outlet></router-outlet>
+</ng-template>

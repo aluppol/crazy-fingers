@@ -1,0 +1,19 @@
+header {
+  border: 1px solid green;
+  height: 25px;
+  width: 100%;
+
+}
+
+.flex {
+  display: flex;
+
+  &-space {
+    flex-grow: 1;
+  }
+
+  &-item {
+    align-items: center;
+    margin: 0 15px;
+  }
+}

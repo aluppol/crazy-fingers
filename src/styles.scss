@@ -1,9 +1,13 @@
+@import './app/theme/mixins.scss';
+@import './app/theme/variables.scss';
+
 * {
   transition: all 0.25s ease-out;
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
 }

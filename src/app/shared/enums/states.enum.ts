@@ -1,5 +1,5 @@
 export enum States {
   progress = 'InProgress',
-  pause = 'pause',
+  pause = 'Pause',
   init = 'Initial',
 }

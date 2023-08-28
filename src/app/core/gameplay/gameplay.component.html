@@ -1,0 +1,12 @@
+<main class="main">
+  <div
+    [class]="{'main__text-container': true, 'main__text-container--wrong-input': gameplay.inputFeedback && gameplay.inputFeedback === InputFeedbacks.error, 'main__text-container--right-input': gameplay.inputFeedback && gameplay.inputFeedback === InputFeedbacks.accepted}">
+    <span class="main__text main__text--wrote">{{gameplay.textChunkWrote}}</span>
+    <span class="main__text main__text--to-write"><span
+        class="main__text main__text--current">{{gameplay.currentSymbol}}</span>{{gameplay.textChunkToWrite}}</span>
+    <span *ngIf="gameplay.placeholder" class="main__text main__text--placeholder">{{gameplay.placeholder}}</span>
+  </div>
+  <div class="main__tooltip">
+    {{gameplay.tooltip}}
+  </div>
+</main>
