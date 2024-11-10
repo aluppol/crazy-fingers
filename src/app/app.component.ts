@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { CrazyFingers, InputFeedbacks } from './services';
 
 @Component({
@@ -6,7 +6,7 @@ import { CrazyFingers, InputFeedbacks } from './services';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnDestroy, OnInit {
   public InputFeedbacks = InputFeedbacks;
   constructor(
     public app: CrazyFingers,
@@ -21,6 +21,12 @@ export class AppComponent implements OnDestroy {
   @HostListener('document:click', ['$event'])
   handleClick(event: MouseEvent) {
     this.app.onClick(event);
+  }
+
+  ngOnInit(): void {
+    if (!this.app.score) {
+
+    }
   }
 
   ngOnDestroy(): void { // not working(

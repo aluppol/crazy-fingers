@@ -19,7 +19,7 @@
     border: 2px solid #555555;
     border-radius: 1rem;
     cursor: text;
-    position:relative;
+    position: relative;
     background: #f8f8f8;
     overflow: hidden;
     margin: auto;
@@ -36,6 +36,7 @@
   &__text {
     font-size: 3rem;
     white-space: pre;
+
     &--wrote {
       @include center;
       left: auto;
