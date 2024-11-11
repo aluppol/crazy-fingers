@@ -6,19 +6,13 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./menu-btn.component.scss']
 })
 export class MenuBtnComponent implements OnInit {
-  @Input() isActive: boolean;
+  @Input() isActive: boolean = false;
 
 
   constructor() {
-    this.isActive = false;
   }
 
 
   public ngOnInit(): void {
   }
-
-  public onClick() {
-    this.isActive = !this.isActive;
-  }
-
 }
