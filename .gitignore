@@ -1,5 +1,14 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# Ignore Angular configuration directory
+.angular
+
+# Ignore VSCode workspace settings directory
+.vscode
+
+# Ignore Yarn cache and configuration directory
+.yarn
+
 # compiled output
 /dist
 /tmp
