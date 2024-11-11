@@ -1,5 +1,5 @@
-// TODO import mixins
-// TODO setup theme
+@import '../../theme/mixins.scss';
+@import '../../theme/variables.scss';
 
 .main {
   display: flex;
@@ -34,7 +34,7 @@
     white-space: pre;
 
     &--wrote {
-      @include center;
+      @include center-positioning;
       left: auto;
       right: 50%;
       transform: translate(0, -50%);
@@ -48,18 +48,18 @@
     }
 
     &--to-write {
-      @include center;
+      @include center-positioning;
       transform: translate(0, -50%);
     }
 
     &--placeholder {
-      @include center;
+      @include center-positioning;
       color: rebeccapurple;
     }
   }
 
   &__tooltip {
-    @include center;
+    @include center-positioning;
     transform: translate(-50%, 0);
     top: calc(50vh + 2.5rem + 1rem);
     font-size: 2rem;

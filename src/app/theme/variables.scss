@@ -1,0 +1,51 @@
+// Base Colors
+$blue-primary: #007BFF; // You can adjust to your preferred blue
+$gray-primary: #6C757D; // Adjust to your preferred gray
+$white: #FFFFFF;
+$black: #000000;
+
+// Fonts
+$font-family-primary: 'Roboto', sans-serif; // Example font, you can replace with your preferred font
+$font-family-secondary: 'Open Sans', sans-serif; // Secondary font, optional
+
+// Font Sizes
+$font-size-root: 16px;
+$font-size-sm: 12px;
+$font-size-md: 16px;
+$font-size-lg: 20px;
+$font-size-xl: 24px;
+
+// Font Weights
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// Spacing & Sizes
+$spacer: 1rem;
+$spacing-xs: $spacer * 0.25;
+$spacing-sm: $spacer * 0.5;
+$spacing-md: $spacer;
+$spacing-lg: $spacer * 1.5;
+$spacing-xl: $spacer * 2;
+
+// Borders
+$border-radius: 4px;
+$border-color: $gray-primary;
+$border-width: 1px;
+
+// Buttons
+$btn-primary-background: $blue-primary;
+$btn-primary-color: $white;
+$btn-secondary-background: $gray-primary;
+$btn-secondary-color: $white;
+
+// Backgrounds
+$background-primary: $white;
+$background-secondary: lighten($gray-primary, 10%); // Lighter gray for subtle backgrounds
+
+// Links
+$link-color: $blue-primary;
+$link-hover-color: darken($blue-primary, 10%); // Darkens the blue slightly for hover
+
+// Other variables can be added based on components and elements in your UI.

@@ -1,6 +1,22 @@
-@mixin center {
+@import './variables.scss';
+
+@mixin center-positioning {
   position: absolute;
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
 }
+
+@mixin center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+@mixin font-title {}
+
+@mixin font-accent {
+  font-size: $font-size-md;
+}
+
+@mixin font-main {}

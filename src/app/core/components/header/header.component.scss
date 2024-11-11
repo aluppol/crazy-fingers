@@ -1,6 +1,9 @@
+@import '../../../theme/variables.scss';
+@import '../../../theme/mixins.scss';
+
 header {
   border: 1px solid green;
-  height: 25px;
+  height: 50px;
   width: 100%;
 
 }
@@ -16,4 +19,26 @@ header {
     align-items: center;
     margin: 0 15px;
   }
+}
+
+.user-selection-btn {
+  @include center-flex;
+
+  .cls-1 {
+    fill: $gray-primary;
+  }
+
+}
+
+.user-name {
+  @include center-flex;
+  @include font-accent;
+}
+
+.cf-logo {
+  @include center-flex;
+}
+
+.menu-btn {
+  @include center-flex;
 }
