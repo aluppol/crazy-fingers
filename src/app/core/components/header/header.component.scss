@@ -2,8 +2,7 @@
 @import '../../../theme/mixins.scss';
 
 header {
-  border: 1px solid green;
-  height: 50px;
+  height: 5rem;
   width: 100%;
 
 }
@@ -17,7 +16,7 @@ header {
 
   &-item {
     align-items: center;
-    margin: 0 15px;
+    margin: 0 1.5rem;
   }
 }
 

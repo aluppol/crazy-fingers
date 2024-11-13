@@ -1,4 +1,4 @@
-@import '../../../theme/variables.scss';
+@import '../../../../theme/variables.scss';
 
 .menu-toggle-btn {
   cursor: pointer;
@@ -14,9 +14,7 @@
   background: none;
   border: none;
 
-  &:hover,
-  &:active,
-  &:focus {
+  &:hover {
     scale: 1.1;
   }
 

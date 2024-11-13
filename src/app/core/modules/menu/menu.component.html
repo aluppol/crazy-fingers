@@ -1,0 +1,6 @@
+<nav class="menu">
+  <cf-menu-btn class="menu__btn" [isActive]="isOpen" (click)="toggleMenu()"></cf-menu-btn>
+  <div [ngClass]="{'menu__filler': true, 'menu__filler--active': isOpen}"></div>
+  <cf-menu-context [ngClass]="{'menu__context': true, 'menu__context--active': isOpen}"
+    [isActive]="isOpen"></cf-menu-context>
+</nav>

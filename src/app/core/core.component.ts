@@ -8,7 +8,6 @@ import { Context } from './context';
   styleUrls: ['./core.component.scss']
 })
 export class CoreComponent implements OnInit {
-  isMenu = false;
   isDisplayControls = true;
 
   constructor(
@@ -21,11 +20,6 @@ export class CoreComponent implements OnInit {
     this.__context.userId = 1;
     this.__context.userName = 'John Bee';
   }
-
-  public toggleMenu(): void {
-    this.isMenu = !this.isMenu;
-  }
-
 }
 
 

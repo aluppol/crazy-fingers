@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-  @Input() isActive: boolean = false;
+  public isOpen: boolean = false;
 
 
   constructor() {
@@ -14,5 +14,11 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+
+  public toggleMenu(): void {
+    this.isOpen = !this.isOpen;
+  }
+
 
 }
