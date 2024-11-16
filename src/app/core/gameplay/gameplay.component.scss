@@ -2,11 +2,10 @@
 @import '../../theme/variables.scss';
 
 .main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include center-flex;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 5rem); // full screen - header height
+  flex-direction: column;
   background: linear-gradient(#ececec, #b6b6b6);
 
   &__text-container {
@@ -18,7 +17,6 @@
     position: relative;
     background: #f8f8f8;
     overflow: hidden;
-    margin: auto;
 
     &--wrong-input {
       border-color: rgb(255, 0, 0);
@@ -60,9 +58,6 @@
   }
 
   &__tooltip {
-    @include center-positioning;
-    transform: translate(-50%, 0);
-    top: calc(50vh + 2.5rem + 1rem);
     font-size: 2rem;
     color: #140067;
     font-family: 'Roboto', sans-serif;
