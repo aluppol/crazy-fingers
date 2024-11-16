@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameplayComponent } from './gameplay.component';
 import { GameplayService } from './gameplay.service';
+import { GameplayRoutingModule } from './gemeplay.routing.module';
 
 
 
@@ -11,6 +12,7 @@ import { GameplayService } from './gameplay.service';
   ],
   imports: [
     CommonModule,
+    GameplayRoutingModule,
   ],
   providers: [GameplayService],
 })
