@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'app-menu',
-  standalone: true,
-  imports: [],
-  templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss'
+    selector: 'app-menu',
+    imports: [],
+    templateUrl: './menu.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './menu.component.scss'
 })
 export class MenuComponent {
   menuOpen = false;

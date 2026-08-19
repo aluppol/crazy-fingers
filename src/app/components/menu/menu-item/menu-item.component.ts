@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'app-menu-item',
-  standalone: true,
-  imports: [],
-  templateUrl: './menu-item.component.html',
-  styleUrl: './menu-item.component.scss'
+    selector: 'app-menu-item',
+    imports: [],
+    templateUrl: './menu-item.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './menu-item.component.scss'
 })
 export class MenuItemComponent {
   @Input() label: string = '';
