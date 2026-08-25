@@ -1,0 +1,124 @@
+.typing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    gap: 2rem;
+    align-items: baseline;
+    width: 80%;
+    font-size: 1.6rem;
+    color: #555;
+  }
+
+  &__back,
+  &__finish {
+    color: #140067;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__book {
+    color: #222;
+    font-weight: 500;
+  }
+
+  &__score {
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+    color: #140067;
+  }
+
+  &__progress {
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__line {
+    position: relative;
+    width: 80%;
+    height: 6rem;
+    border: 2px solid #555;
+    border-radius: 1rem;
+    background: #f8f8f8;
+    overflow: hidden;
+    transition: border-color 0.25s ease-out;
+
+    &--rejected {
+      border-color: #d00;
+    }
+
+    &--accepted {
+      border-color: #080;
+    }
+  }
+
+  &__written,
+  &__ahead {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    white-space: pre;
+  }
+
+  &__written {
+    right: 50%;
+    color: grey;
+  }
+
+  &__ahead {
+    left: 50%;
+  }
+
+  &__current {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+
+  &__tooltip {
+    min-height: 2.4rem;
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #140067;
+
+    &--rejected {
+      color: #d00;
+    }
+  }
+
+  &__error {
+    color: #d00;
+  }
+}
+
+.summary {
+  display: flex;
+  gap: 4rem;
+  margin: 0;
+
+  &__item {
+    text-align: center;
+  }
+
+  dt {
+    font-size: 1.4rem;
+    color: #555;
+  }
+
+  dd {
+    margin: 0.3rem 0 0;
+    font-size: 2.8rem;
+    color: #140067;
+    font-variant-numeric: tabular-nums;
+  }
+}

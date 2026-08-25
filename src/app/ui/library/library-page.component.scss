@@ -1,0 +1,168 @@
+.library {
+  max-width: 96rem;
+  margin: 0 auto;
+  padding: 4rem 2rem 6rem;
+
+  &__title {
+    margin: 0;
+    font-size: 4rem;
+    font-weight: 300;
+    color: #140067;
+  }
+
+  &__subtitle {
+    margin: 0.5rem 0 3rem;
+    color: #555;
+  }
+
+  &__empty {
+    color: #555;
+    font-style: italic;
+  }
+}
+
+.import {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+
+  &__file-input {
+    display: none;
+  }
+
+  &__hint {
+    font-size: 1.3rem;
+    color: #666;
+  }
+
+  &__paste {
+    flex-basis: 100%;
+
+    summary {
+      cursor: pointer;
+      color: #140067;
+    }
+  }
+
+  &__title,
+  &__text {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid #999;
+    border-radius: 0.6rem;
+    background: #fff;
+  }
+
+  &__text {
+    min-height: 12rem;
+    margin-bottom: 1rem;
+    resize: vertical;
+  }
+
+  &__status {
+    flex-basis: 100%;
+    margin: 0;
+    color: #140067;
+  }
+}
+
+.books {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.book {
+  margin-bottom: 1.5rem;
+  padding: 1.5rem 2rem;
+  border: 2px solid #555;
+  border-radius: 1rem;
+  background: #f8f8f8;
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  &__title {
+    font-size: 2.2rem;
+  }
+
+  &__author,
+  &__meta {
+    font-size: 1.4rem;
+    color: #555;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+.chapters {
+  margin: 1.5rem 0 0;
+  padding-left: 3rem;
+  columns: 2;
+
+  &__item {
+    padding: 0.2rem 0;
+    border: 0;
+    background: none;
+    color: #140067;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.button {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  border: 2px solid #555;
+  border-radius: 0.6rem;
+  background: #fff;
+  color: #222;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: #ececec;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  &--primary {
+    border-color: #140067;
+    background: #140067;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      background: #2a1a8a;
+    }
+  }
+
+  &--danger {
+    border-color: #a00;
+    color: #a00;
+  }
+}

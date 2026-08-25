@@ -52,3 +52,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Agent context (local only)
+context.md
+
+# Local sample books for manual testing (copyrighted, never committed)
+samples/

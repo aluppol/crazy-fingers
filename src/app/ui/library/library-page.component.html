@@ -1,0 +1,83 @@
+<section class="library">
+  <header class="library__header">
+    <h1 class="library__title">Crazy Fingers</h1>
+    <p class="library__subtitle">Type your way through any book.</p>
+  </header>
+
+  <div class="import">
+    <label class="button button--primary import__file">
+      {{ isImporting() ? 'Importing…' : 'Add books' }}
+      <input
+        #fileInput
+        class="import__file-input"
+        type="file"
+        multiple
+        [accept]="acceptedFileTypes"
+        [disabled]="isImporting()"
+        (change)="importFiles(fileInput.files); fileInput.value = ''"
+      >
+    </label>
+    <span class="import__hint">{{ acceptedFileTypes }}</span>
+    <details class="import__paste">
+      <summary>Paste text instead</summary>
+      <input
+        #titleInput
+        class="import__title"
+        type="text"
+        placeholder="Title"
+        [value]="pastedTitle()"
+        (input)="pastedTitle.set(titleInput.value)"
+      >
+      <textarea
+        #textInput
+        class="import__text"
+        placeholder="Paste any text here"
+        [value]="pastedText()"
+        (input)="pastedText.set(textInput.value)"
+      ></textarea>
+      <button type="button" class="button button--primary" [disabled]="pastedText().trim().length === 0" (click)="importPastedText()">Add text</button>
+    </details>
+    @if (statusMessage()) {
+      <p class="import__status">{{ statusMessage() }}</p>
+    }
+  </div>
+
+  @if (entries().length === 0) {
+    <p class="library__empty">Your library is empty — add a book to start typing.</p>
+  }
+
+  <ul class="books">
+    @for (entry of entries(); track entry.book.id) {
+      <li class="book">
+        <div class="book__row">
+          <div class="book__info">
+            <span class="book__title">{{ entry.book.title }}</span>
+            @if (entry.book.author) {
+              <span class="book__author">{{ entry.book.author }}</span>
+            }
+            <span class="book__meta">{{ entry.book.chapters.length }} chapters · {{ progressPercent(entry) }}% typed</span>
+            @if (entry.bestWordsPerMinute > 0) {
+              <span class="book__meta">best {{ entry.bestWordsPerMinute }} wpm · {{ entry.score.accuracyPercent }}% accurate</span>
+            }
+          </div>
+          <div class="book__actions">
+            <a class="button button--primary" [routerLink]="['/books', entry.book.id]">{{ entry.symbolIndex > 0 ? 'Continue' : 'Start' }}</a>
+            <button type="button" class="button" (click)="toggleChapters(entry.book.id)">Chapters</button>
+            <button type="button" class="button button--danger" (click)="deleteBook(entry.book.id)">
+              {{ armedDeleteBookId() === entry.book.id ? 'Really delete?' : 'Delete' }}
+            </button>
+          </div>
+        </div>
+        @if (expandedBookId() === entry.book.id) {
+          <ol class="chapters">
+            @for (chapter of entry.book.chapters; track chapter.firstSymbolIndex; let chapterIndex = $index) {
+              <li>
+                <button type="button" class="chapters__item" (click)="openChapter(entry.book.id, chapterIndex)">{{ chapter.title }}</button>
+              </li>
+            }
+          </ol>
+        }
+      </li>
+    }
+  </ul>
+</section>

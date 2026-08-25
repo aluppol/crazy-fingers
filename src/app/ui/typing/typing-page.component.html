@@ -1,0 +1,31 @@
+<main class="typing">
+  @if (view(); as view) {
+    <header class="typing__header">
+      <a class="typing__back" routerLink="/">← Library</a>
+      <span class="typing__book">{{ session()?.book?.title }}</span>
+      <span class="typing__chapter">{{ chapterLabel() }}</span>
+      <span class="typing__score">{{ speedLabel() }} · {{ view.score.accuracyPercent }}%</span>
+      <span class="typing__progress">{{ progressPercent() }}%</span>
+    </header>
+    <div
+      class="typing__line"
+      [class.typing__line--rejected]="flash() === verdicts.Rejected"
+      [class.typing__line--accepted]="flash() === verdicts.Accepted"
+    >
+      <span class="typing__written">{{ view.textChunkWritten | paragraphGlyphs }}</span>
+      <span class="typing__ahead"><span class="typing__current">{{ view.currentSymbol | currentSymbolGlyph }}</span>{{ view.textChunkToWrite | paragraphGlyphs }}</span>
+    </div>
+    <p class="typing__tooltip" [class.typing__tooltip--rejected]="flash() === verdicts.Rejected">{{ tooltip() }}</p>
+    @if (view.phase === phases.Complete) {
+      <dl class="summary">
+        <div class="summary__item"><dt>Speed</dt><dd>{{ view.score.wordsPerMinute }} wpm</dd></div>
+        <div class="summary__item"><dt>Accuracy</dt><dd>{{ view.score.accuracyPercent }}%</dd></div>
+        <div class="summary__item"><dt>Points</dt><dd>{{ view.score.points }}</dd></div>
+      </dl>
+      <a class="typing__finish" routerLink="/">Back to the library</a>
+    }
+  } @else if (errorMessage(); as errorMessage) {
+    <p class="typing__error">{{ errorMessage }}</p>
+    <a class="typing__finish" routerLink="/">Back to the library</a>
+  }
+</main>
