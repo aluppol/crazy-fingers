@@ -4,25 +4,31 @@
     <p class="library__subtitle">Type your way through any book.</p>
   </header>
 
-  <div class="import">
-    <label class="button button--primary import__file">
-      {{ isImporting() ? 'Importing…' : 'Add books' }}
-      <input
-        #fileInput
-        class="import__file-input"
-        type="file"
-        multiple
-        [accept]="acceptedFileTypes"
-        [disabled]="isImporting()"
-        (change)="importFiles(fileInput.files); fileInput.value = ''"
-      >
-    </label>
-    <span class="import__hint">{{ acceptedFileTypes }}</span>
+  <div class="import card">
+    <div class="import__row">
+      <label class="button button--primary import__file">
+        {{ isImporting() ? 'Importing…' : 'Add books' }}
+        <input
+          #fileInput
+          class="import__file-input"
+          type="file"
+          multiple
+          [accept]="acceptedFileTypes"
+          [disabled]="isImporting()"
+          (change)="importFiles(fileInput.files); fileInput.value = ''"
+        >
+      </label>
+      <ul class="import__formats">
+        @for (extension of acceptedExtensions; track extension) {
+          <li class="chip chip--quiet">{{ extension }}</li>
+        }
+      </ul>
+    </div>
     <details class="import__paste">
-      <summary>Paste text instead</summary>
+      <summary class="import__summary">Paste text instead</summary>
       <input
         #titleInput
-        class="import__title"
+        class="field import__title"
         type="text"
         placeholder="Title"
         [value]="pastedTitle()"
@@ -30,7 +36,7 @@
       >
       <textarea
         #textInput
-        class="import__text"
+        class="field import__text"
         placeholder="Paste any text here"
         [value]="pastedText()"
         (input)="pastedText.set(textInput.value)"
@@ -38,27 +44,34 @@
       <button type="button" class="button button--primary" [disabled]="pastedText().trim().length === 0" (click)="importPastedText()">Add text</button>
     </details>
     @if (statusMessage()) {
-      <p class="import__status">{{ statusMessage() }}</p>
+      <p class="import__status" role="status">{{ statusMessage() }}</p>
     }
+    <p class="touch-notice">Crazy Fingers needs a physical keyboard — there is nothing to tap on a touch screen yet.</p>
   </div>
 
   @if (entries().length === 0) {
-    <p class="library__empty">Your library is empty — add a book to start typing.</p>
+    <div class="empty card">
+      <h2 class="empty__title">Your library is empty</h2>
+      <p class="empty__text">Add a book above — a novel, a manual, your own notes — and type it from the first line to the last.</p>
+    </div>
   }
 
   <ul class="books">
     @for (entry of entries(); track entry.book.id) {
-      <li class="book">
+      <li class="book card">
         <div class="book__row">
           <div class="book__info">
             <span class="book__title">{{ entry.book.title }}</span>
             @if (entry.book.author) {
               <span class="book__author">{{ entry.book.author }}</span>
             }
-            <span class="book__meta">{{ entry.book.chapters.length }} chapters · {{ progressPercent(entry) }}% typed</span>
-            @if (entry.bestWordsPerMinute > 0) {
-              <span class="book__meta">best {{ entry.bestWordsPerMinute }} wpm · {{ entry.score.accuracyPercent }}% accurate</span>
-            }
+            <div class="book__meta">
+              <span class="chip chip--quiet">{{ entry.book.chapters.length }} chapters</span>
+              @if (entry.bestWordsPerMinute > 0) {
+                <span class="chip chip--quiet">best {{ entry.bestWordsPerMinute }} wpm</span>
+                <span class="chip chip--quiet">{{ entry.score.accuracyPercent }}% accurate</span>
+              }
+            </div>
           </div>
           <div class="book__actions">
             <a class="button button--primary" [routerLink]="['/books', entry.book.id]">{{ entry.symbolIndex > 0 ? 'Continue' : 'Start' }}</a>
@@ -67,6 +80,19 @@
               {{ armedDeleteBookId() === entry.book.id ? 'Really delete?' : 'Delete' }}
             </button>
           </div>
+        </div>
+        <div class="book__progress">
+          <div
+            class="rail"
+            role="progressbar"
+            [attr.aria-label]="entry.book.title + ' progress'"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [attr.aria-valuenow]="progressPercent(entry)"
+          >
+            <div class="rail__fill" [style.width.%]="progressPercent(entry)"></div>
+          </div>
+          <span class="book__percent">{{ progressPercent(entry) }}% typed</span>
         </div>
         @if (expandedBookId() === entry.book.id) {
           <ol class="chapters">

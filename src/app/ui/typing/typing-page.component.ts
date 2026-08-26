@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, HostListener, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Library, TypingSession } from '../../application';
-import { chapterIndexAt, KeystrokeFeedback, KeystrokeVerdict, TypingPhase, TypingView } from '../../domain';
+import { chapterIndexAt, Keystroke, KeystrokeKind, KeystrokeVerdict, TypingPhase, TypingView } from '../../domain';
+import { FingerGuideVisibility } from '../enums';
 import { describeError } from '../error-message';
+import { KeyboardGuideComponent, needsSystemLayoutSwitch, readFingerGuideVisibility, writeFingerGuideVisibility } from '../keyboard';
 import { CurrentSymbolGlyphPipe } from './current-symbol-glyph.pipe';
 import { keystrokeFrom } from './keystroke-mapper';
 import { ParagraphGlyphsPipe } from './paragraph-glyphs.pipe';
@@ -11,16 +13,20 @@ const TOOLTIPS: Readonly<Record<TypingPhase, string>> = {
   [TypingPhase.Ready]: 'Press [ENTER] to start',
   [TypingPhase.Progress]: '',
   [TypingPhase.Pause]: 'Paused — press [ESC] to continue',
-  [TypingPhase.Complete]: 'The book is complete!',
+  [TypingPhase.Complete]: '',
 };
 const REJECTED_TOOLTIP = 'Wrong!';
 const MILLISECONDS_BEFORE_SPEED_IS_MEANINGFUL = 2_000;
 const SPEED_STILL_SETTLING = '—';
 const FEEDBACK_FLASH_MILLISECONDS = 400;
 
+function isForeignToExpectedSymbol(expectedSymbol: string, keystroke: Keystroke): boolean {
+  return keystroke.kind === KeystrokeKind.Character && needsSystemLayoutSwitch(expectedSymbol, keystroke.character);
+}
+
 @Component({
   selector: 'app-typing-page',
-  imports: [RouterLink, ParagraphGlyphsPipe, CurrentSymbolGlyphPipe],
+  imports: [RouterLink, ParagraphGlyphsPipe, CurrentSymbolGlyphPipe, KeyboardGuideComponent],
   templateUrl: './typing-page.component.html',
   styleUrl: './typing-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,6 +39,9 @@ export class TypingPageComponent implements OnInit, OnDestroy {
   public readonly view = signal<TypingView | null>(null);
   public readonly flash = signal<KeystrokeVerdict | null>(null);
   public readonly errorMessage = signal<string | null>(null);
+  public readonly guideVisible = signal(readFingerGuideVisibility(localStorage) === FingerGuideVisibility.Shown);
+  public readonly layoutMismatch = signal(false);
+  public readonly isPersonalBest = signal(false);
 
   public readonly progressPercent = computed(() => {
     const view = this.view();
@@ -61,13 +70,15 @@ export class TypingPageComponent implements OnInit, OnDestroy {
 
   private readonly _library = inject(Library);
   private _flashTimeout: ReturnType<typeof setTimeout> | null = null;
-  private _flashedSequence = 0;
+  private _reactedSequence = 0;
+  private _bestWordsPerMinuteBefore = 0;
 
   public async ngOnInit(): Promise<void> {
     try {
       const session = await this._library.openBook(this.bookId());
       this.session.set(session);
       this.view.set(session.view());
+      this._bestWordsPerMinuteBefore = await this._bestWordsPerMinute();
     } catch (error) {
       this.errorMessage.set(describeError(error));
     }
@@ -75,6 +86,13 @@ export class TypingPageComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     void this.leave();
+  }
+
+  public toggleGuide(toggle: HTMLButtonElement): void {
+    const visible = !this.guideVisible();
+    this.guideVisible.set(visible);
+    writeFingerGuideVisibility(localStorage, visible ? FingerGuideVisibility.Shown : FingerGuideVisibility.Hidden);
+    toggle.blur();
   }
 
   @HostListener('window:pagehide')
@@ -89,18 +107,35 @@ export class TypingPageComponent implements OnInit, OnDestroy {
     const keystroke = keystrokeFrom(event);
     if (session === null || keystroke === null) return;
     event.preventDefault();
+    const phaseBefore = session.view().phase;
     const persisted = session.press(keystroke);
     const view = session.view();
     this.view.set(view);
-    this._flashFeedback(view.lastKeystroke);
+    this._reactToRecordedKeystroke(view, keystroke);
     await persisted;
+    if (view.phase === TypingPhase.Complete && phaseBefore !== view.phase) this.isPersonalBest.set(await this._hasNewPersonalBest());
   }
 
-  private _flashFeedback(feedback: KeystrokeFeedback | null): void {
-    if (feedback === null || feedback.sequence === this._flashedSequence) return;
+  private _reactToRecordedKeystroke(view: TypingView, keystroke: Keystroke): void {
+    const feedback = view.lastKeystroke;
+    if (feedback === null || feedback.sequence === this._reactedSequence) return;
+    this._reactedSequence = feedback.sequence;
+    this._flashFeedback(feedback.verdict);
+    this.layoutMismatch.set(feedback.verdict === KeystrokeVerdict.Rejected && isForeignToExpectedSymbol(view.currentSymbol, keystroke));
+  }
+
+  private _flashFeedback(verdict: KeystrokeVerdict): void {
     if (this._flashTimeout !== null) clearTimeout(this._flashTimeout);
-    this._flashedSequence = feedback.sequence;
-    this.flash.set(feedback.verdict);
+    this.flash.set(verdict);
     this._flashTimeout = setTimeout(() => this.flash.set(null), FEEDBACK_FLASH_MILLISECONDS);
+  }
+
+  private async _hasNewPersonalBest(): Promise<boolean> {
+    return await this._bestWordsPerMinute() > this._bestWordsPerMinuteBefore;
+  }
+
+  private async _bestWordsPerMinute(): Promise<number> {
+    const entries = await this._library.listEntries();
+    return entries.find(entry => entry.book.id === this.bookId())?.bestWordsPerMinute ?? 0;
   }
 }

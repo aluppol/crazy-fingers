@@ -22,6 +22,7 @@ export class LibraryPageComponent implements OnInit {
   public readonly armedDeleteBookId = signal<BookId | null>(null);
   public readonly pastedTitle = signal('');
   public readonly pastedText = signal('');
+  public readonly acceptedExtensions: readonly string[];
   public readonly acceptedFileTypes: string;
 
   private readonly _library = inject(Library);
@@ -29,7 +30,8 @@ export class LibraryPageComponent implements OnInit {
   private readonly _router = inject(Router);
 
   constructor() {
-    this.acceptedFileTypes = this._importer.supportedExtensions.map(extension => `.${extension}`).join(',');
+    this.acceptedExtensions = this._importer.supportedExtensions.map(extension => `.${extension}`);
+    this.acceptedFileTypes = this.acceptedExtensions.join(',');
   }
 
   public async ngOnInit(): Promise<void> {

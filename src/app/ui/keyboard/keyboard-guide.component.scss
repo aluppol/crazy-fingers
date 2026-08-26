@@ -1,0 +1,173 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.guide {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-4) var(--space-5);
+  width: 100%;
+
+  &__notice {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--danger);
+    text-align: center;
+  }
+}
+
+.keyboard {
+  --key-unit: min(calc(100cqw / var(--row-units)), 4.4rem);
+
+  container-type: inline-size;
+  flex: 1 1 40rem;
+  min-width: 0;
+  max-width: 66rem;
+
+  &__caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-2);
+    font-size: 1.2rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  &__badge {
+    padding: 0.1rem 0.7rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__slot {
+    flex: 0 0 calc(var(--key-width) / var(--row-units) * 100%);
+    min-width: 0;
+    padding: calc(var(--key-unit) * 0.045);
+  }
+}
+
+.key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1em;
+  height: calc(var(--key-unit) * 0.9);
+  border: 1px solid color-mix(in srgb, var(--key-hue) 30%, var(--hairline));
+  border-radius: calc(var(--key-unit) * 0.18);
+  background: color-mix(in srgb, var(--key-hue) 12%, var(--surface-raised));
+  color: var(--ink);
+  font-size: calc(var(--key-unit) * 0.32);
+  line-height: 1;
+  transition: background-color 120ms ease-out, border-color 120ms ease-out, color 120ms ease-out, box-shadow 120ms ease-out;
+
+  &__shifted {
+    font-size: 0.68em;
+    color: var(--ink-muted);
+  }
+
+  &--modifier,
+  &--shift,
+  &--enter {
+    font-size: calc(var(--key-unit) * 0.22);
+    color: var(--ink-muted);
+  }
+
+  &--next,
+  &--held {
+    border-color: var(--key-hue);
+    background: var(--key-hue);
+    color: var(--finger-ink);
+    box-shadow: 0 0 0 0.3rem color-mix(in srgb, var(--key-hue) 30%, transparent);
+
+    .key__shifted {
+      color: inherit;
+      opacity: 0.75;
+    }
+  }
+
+  &--left-pinky,
+  &--right-pinky {
+    --key-hue: var(--finger-pinky);
+  }
+
+  &--left-ring,
+  &--right-ring {
+    --key-hue: var(--finger-ring);
+  }
+
+  &--left-middle,
+  &--right-middle {
+    --key-hue: var(--finger-middle);
+  }
+
+  &--left-index,
+  &--right-index {
+    --key-hue: var(--finger-index);
+  }
+
+  &--thumb {
+    --key-hue: var(--finger-thumb);
+  }
+}
+
+.guide--rejected .key--next {
+  border-color: var(--danger);
+  background: var(--danger);
+  box-shadow: 0 0 0 0.3rem color-mix(in srgb, var(--danger) 30%, transparent);
+}
+
+.hands {
+  flex: 0 1 20rem;
+  width: 100%;
+  max-width: 22rem;
+  height: auto;
+
+  &__palm {
+    fill: color-mix(in srgb, var(--ink) 8%, var(--surface-raised));
+  }
+
+  &__finger {
+    fill: color-mix(in srgb, var(--finger-hue) 22%, var(--surface-raised));
+    transition: fill 120ms ease-out;
+
+    &--lit {
+      fill: var(--finger-hue);
+    }
+
+    &--pinky {
+      --finger-hue: var(--finger-pinky);
+    }
+
+    &--ring {
+      --finger-hue: var(--finger-ring);
+    }
+
+    &--middle {
+      --finger-hue: var(--finger-middle);
+    }
+
+    &--index {
+      --finger-hue: var(--finger-index);
+    }
+
+    &--thumb {
+      --finger-hue: var(--finger-thumb);
+    }
+  }
+}

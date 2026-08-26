@@ -1,128 +1,174 @@
 .library {
-  max-width: 96rem;
+  max-width: 92rem;
   margin: 0 auto;
-  padding: 4rem 2rem 6rem;
+  padding: var(--space-7) var(--space-4);
+
+  &__header {
+    margin-bottom: var(--space-5);
+  }
 
   &__title {
     margin: 0;
     font-size: 4rem;
     font-weight: 300;
-    color: #140067;
+    letter-spacing: -0.01em;
   }
 
   &__subtitle {
-    margin: 0.5rem 0 3rem;
-    color: #555;
-  }
-
-  &__empty {
-    color: #555;
-    font-style: italic;
+    margin: var(--space-1) 0 0;
+    color: var(--ink-muted);
   }
 }
 
 .import {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 3rem;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+  padding: var(--space-5);
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-4);
+  }
 
   &__file-input {
     display: none;
   }
 
-  &__hint {
-    font-size: 1.3rem;
-    color: #666;
+  &__formats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  &__paste {
-    flex-basis: 100%;
+  &__summary {
+    font-weight: 500;
+    color: var(--accent);
+    cursor: pointer;
 
-    summary {
-      cursor: pointer;
-      color: #140067;
+    &:hover {
+      text-decoration: underline;
     }
   }
 
   &__title,
   &__text {
-    display: block;
-    width: 100%;
-    margin-top: 1rem;
-    padding: 0.8rem 1rem;
-    border: 1px solid #999;
-    border-radius: 0.6rem;
-    background: #fff;
+    margin-top: var(--space-3);
   }
 
   &__text {
     min-height: 12rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-3);
     resize: vertical;
   }
 
   &__status {
-    flex-basis: 100%;
     margin: 0;
-    color: #140067;
+    color: var(--accent);
+  }
+}
+
+.empty {
+  padding: var(--space-6) var(--space-5);
+  text-align: center;
+
+  &__title {
+    margin: 0;
+    font-size: 2.4rem;
+    font-weight: 300;
+  }
+
+  &__text {
+    max-width: 46rem;
+    margin: var(--space-2) auto 0;
+    color: var(--ink-muted);
   }
 }
 
 .books {
-  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 
 .book {
-  margin-bottom: 1.5rem;
-  padding: 1.5rem 2rem;
-  border: 2px solid #555;
-  border-radius: 1rem;
-  background: #f8f8f8;
+  padding: var(--space-4) var(--space-5);
 
   &__row {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 1.5rem;
+    gap: var(--space-3) var(--space-4);
   }
 
   &__info {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: var(--space-1);
+    min-width: 0;
   }
 
   &__title {
-    font-size: 2.2rem;
+    font-size: 2rem;
+    font-weight: 500;
   }
 
-  &__author,
-  &__meta {
+  &__author {
     font-size: 1.4rem;
-    color: #555;
+    color: var(--ink-muted);
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-1);
   }
 
   &__actions {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  &__progress {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+
+  &__percent {
+    flex-shrink: 0;
+    font-size: 1.3rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-muted);
   }
 }
 
 .chapters {
-  margin: 1.5rem 0 0;
-  padding-left: 3rem;
+  margin: var(--space-4) 0 0;
+  padding: var(--space-3) 0 0 var(--space-5);
+  border-top: 1px solid var(--hairline);
   columns: 2;
+  column-gap: var(--space-5);
 
   &__item {
-    padding: 0.2rem 0;
+    padding: 0.3rem 0;
     border: 0;
+    border-radius: var(--radius-s);
     background: none;
-    color: #140067;
+    color: var(--accent);
     text-align: left;
     cursor: pointer;
 
@@ -130,39 +176,8 @@
       text-decoration: underline;
     }
   }
-}
 
-.button {
-  display: inline-block;
-  padding: 0.8rem 1.6rem;
-  border: 2px solid #555;
-  border-radius: 0.6rem;
-  background: #fff;
-  color: #222;
-  text-decoration: none;
-  cursor: pointer;
-
-  &:hover:not(:disabled) {
-    background: #ececec;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: default;
-  }
-
-  &--primary {
-    border-color: #140067;
-    background: #140067;
-    color: #fff;
-
-    &:hover:not(:disabled) {
-      background: #2a1a8a;
-    }
-  }
-
-  &--danger {
-    border-color: #a00;
-    color: #a00;
+  @media (max-width: 640px) {
+    columns: 1;
   }
 }

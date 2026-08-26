@@ -2,11 +2,25 @@
   @if (view(); as view) {
     <header class="typing__header">
       <a class="typing__back" routerLink="/">← Library</a>
-      <span class="typing__book">{{ session()?.book?.title }}</span>
-      <span class="typing__chapter">{{ chapterLabel() }}</span>
-      <span class="typing__score">{{ speedLabel() }} · {{ view.score.accuracyPercent }}%</span>
-      <span class="typing__progress">{{ progressPercent() }}%</span>
+      <div class="typing__title">
+        <h1 class="typing__book">{{ session()?.book?.title }}</h1>
+        <p class="typing__chapter">{{ chapterLabel() }}</p>
+      </div>
+      <div class="typing__stats">
+        <span class="chip"><span class="chip__label">Speed</span>{{ speedLabel() }}</span>
+        <span class="chip"><span class="chip__label">Accuracy</span>{{ view.score.accuracyPercent }}%</span>
+        <button #guideToggle type="button" class="button button--small" [attr.aria-pressed]="guideVisible()" (click)="toggleGuide(guideToggle)">
+          Finger guide<span class="button__state">{{ guideVisible() ? 'on' : 'off' }}</span>
+        </button>
+      </div>
     </header>
+    <div class="typing__progress">
+      <div class="rail" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="progressPercent()">
+        <div class="rail__fill" [style.width.%]="progressPercent()"></div>
+      </div>
+      <span class="typing__percent">{{ progressPercent() }}%</span>
+    </div>
+    <p class="touch-notice">Crazy Fingers needs a physical keyboard — there is nothing to tap on a touch screen yet.</p>
     <div
       class="typing__line"
       [class.typing__line--rejected]="flash() === verdicts.Rejected"
@@ -17,15 +31,23 @@
     </div>
     <p class="typing__tooltip" [class.typing__tooltip--rejected]="flash() === verdicts.Rejected">{{ tooltip() }}</p>
     @if (view.phase === phases.Complete) {
-      <dl class="summary">
-        <div class="summary__item"><dt>Speed</dt><dd>{{ view.score.wordsPerMinute }} wpm</dd></div>
-        <div class="summary__item"><dt>Accuracy</dt><dd>{{ view.score.accuracyPercent }}%</dd></div>
-        <div class="summary__item"><dt>Points</dt><dd>{{ view.score.points }}</dd></div>
-      </dl>
-      <a class="typing__finish" routerLink="/">Back to the library</a>
+      <section class="summary card">
+        <h2 class="summary__title">The book is complete</h2>
+        @if (isPersonalBest()) {
+          <p class="summary__record">New personal best for this book</p>
+        }
+        <dl class="summary__stats">
+          <div class="summary__item"><dt>Speed</dt><dd>{{ view.score.wordsPerMinute }} wpm</dd></div>
+          <div class="summary__item"><dt>Accuracy</dt><dd>{{ view.score.accuracyPercent }}%</dd></div>
+          <div class="summary__item"><dt>Points</dt><dd>{{ view.score.points }}</dd></div>
+        </dl>
+        <a class="button button--primary" routerLink="/">Back to the library</a>
+      </section>
+    } @else if (guideVisible()) {
+      <app-keyboard-guide [symbol]="view.currentSymbol" [rejected]="flash() === verdicts.Rejected" [layoutMismatch]="layoutMismatch()" />
     }
   } @else if (errorMessage(); as errorMessage) {
     <p class="typing__error">{{ errorMessage }}</p>
-    <a class="typing__finish" routerLink="/">Back to the library</a>
+    <a class="button" routerLink="/">Back to the library</a>
   }
 </main>
