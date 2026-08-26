@@ -29,7 +29,7 @@
       <span class="typing__written">{{ view.textChunkWritten | paragraphGlyphs }}</span>
       <span class="typing__ahead"><span class="typing__current">{{ view.currentSymbol | currentSymbolGlyph }}</span>{{ view.textChunkToWrite | paragraphGlyphs }}</span>
     </div>
-    <p class="typing__tooltip" [class.typing__tooltip--rejected]="flash() === verdicts.Rejected">{{ tooltip() }}</p>
+    <p #tooltipEl class="typing__tooltip" [class.typing__tooltip--rejected]="flash() === verdicts.Rejected">{{ tooltip() }}</p>
     @if (view.phase === phases.Complete) {
       <section class="summary card">
         <h2 class="summary__title">The book is complete</h2>

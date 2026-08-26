@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, HostListener, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, HostListener, inject, input, OnDestroy, OnInit, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Library, TypingSession } from '../../application';
 import { chapterIndexAt, Keystroke, KeystrokeKind, KeystrokeVerdict, TypingPhase, TypingView } from '../../domain';
@@ -19,9 +19,26 @@ const REJECTED_TOOLTIP = 'Wrong!';
 const MILLISECONDS_BEFORE_SPEED_IS_MEANINGFUL = 2_000;
 const SPEED_STILL_SETTLING = '—';
 const FEEDBACK_FLASH_MILLISECONDS = 400;
+const INSTRUCTION_FLASH_TIMING: KeyframeAnimationOptions = { duration: 820, easing: 'ease-out' };
 
 function isForeignToExpectedSymbol(expectedSymbol: string, keystroke: Keystroke): boolean {
   return keystroke.kind === KeystrokeKind.Character && needsSystemLayoutSwitch(expectedSymbol, keystroke.character);
+}
+
+function prefersReducedMotion(): boolean {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function instructionFlashKeyframes(element: HTMLElement): Keyframe[] {
+  const styles = getComputedStyle(element);
+  const accent = styles.getPropertyValue('--accent').trim();
+  const resting = styles.getPropertyValue('--ink-muted').trim();
+  const still = prefersReducedMotion();
+  return [
+    { color: accent, fontWeight: '700', transform: still ? 'scale(1)' : 'scale(1.16)', offset: 0 },
+    { color: accent, fontWeight: '700', transform: still ? 'scale(1)' : 'scale(1.05)', offset: 0.14 },
+    { color: resting, fontWeight: '400', transform: 'scale(1)', offset: 1 },
+  ];
 }
 
 @Component({
@@ -69,7 +86,9 @@ export class TypingPageComponent implements OnInit, OnDestroy {
   });
 
   private readonly _library = inject(Library);
+  private readonly _tooltip = viewChild<ElementRef<HTMLElement>>('tooltipEl');
   private _flashTimeout: ReturnType<typeof setTimeout> | null = null;
+  private _flashAnimation: Animation | null = null;
   private _reactedSequence = 0;
   private _bestWordsPerMinuteBefore = 0;
 
@@ -112,6 +131,7 @@ export class TypingPageComponent implements OnInit, OnDestroy {
     const view = session.view();
     this.view.set(view);
     this._reactToRecordedKeystroke(view, keystroke);
+    this._emphasizeExpectedKey(view.phase);
     await persisted;
     if (view.phase === TypingPhase.Complete && phaseBefore !== view.phase) this.isPersonalBest.set(await this._hasNewPersonalBest());
   }
@@ -128,6 +148,13 @@ export class TypingPageComponent implements OnInit, OnDestroy {
     if (this._flashTimeout !== null) clearTimeout(this._flashTimeout);
     this.flash.set(verdict);
     this._flashTimeout = setTimeout(() => this.flash.set(null), FEEDBACK_FLASH_MILLISECONDS);
+  }
+
+  private _emphasizeExpectedKey(phase: TypingPhase): void {
+    const element = this._tooltip()?.nativeElement;
+    if (element === undefined || TOOLTIPS[phase].length === 0) return;
+    this._flashAnimation?.cancel();
+    this._flashAnimation = element.animate(instructionFlashKeyframes(element), INSTRUCTION_FLASH_TIMING);
   }
 
   private async _hasNewPersonalBest(): Promise<boolean> {
