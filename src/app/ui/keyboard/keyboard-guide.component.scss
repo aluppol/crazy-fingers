@@ -62,6 +62,7 @@
 }
 
 .key {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,6 +80,19 @@
   &__shifted {
     font-size: 0.68em;
     color: var(--ink-muted);
+  }
+
+  &--home::after {
+    content: '';
+    position: absolute;
+    bottom: calc(var(--key-unit) * 0.13);
+    left: 50%;
+    width: calc(var(--key-unit) * 0.3);
+    height: calc(var(--key-unit) * 0.06);
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.5;
   }
 
   &--modifier,
@@ -133,21 +147,26 @@
 }
 
 .hands {
-  flex: 0 1 20rem;
+  flex: 0 1 21rem;
   width: 100%;
-  max-width: 22rem;
+  max-width: 23rem;
   height: auto;
 
   &__palm {
-    fill: color-mix(in srgb, var(--ink) 8%, var(--surface-raised));
+    fill: color-mix(in srgb, var(--ink) 9%, var(--surface-raised));
+    stroke: color-mix(in srgb, var(--ink) 16%, transparent);
+    stroke-width: 1.5;
   }
 
   &__finger {
-    fill: color-mix(in srgb, var(--finger-hue) 22%, var(--surface-raised));
-    transition: fill 120ms ease-out;
+    fill: color-mix(in srgb, var(--finger-hue) 24%, var(--surface-raised));
+    stroke: color-mix(in srgb, var(--finger-hue) 34%, transparent);
+    stroke-width: 1.5;
+    transition: fill 120ms ease-out, stroke 120ms ease-out;
 
     &--lit {
       fill: var(--finger-hue);
+      stroke: var(--finger-hue);
     }
 
     &--pinky {

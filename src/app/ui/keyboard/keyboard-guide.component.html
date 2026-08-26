@@ -12,6 +12,7 @@
               class="key key--{{ cap.finger }} key--{{ cap.role }}"
               [class.key--next]="isNextKey(cap)"
               [class.key--held]="isHeldShift(cap)"
+              [class.key--home]="isHomeAnchor(cap)"
             >
               @if (cap.shiftedLabel !== null) {
                 <span class="key__shifted">{{ cap.shiftedLabel }}</span>
@@ -23,22 +24,36 @@
       </div>
     }
   </div>
-  <svg class="hands" viewBox="0 0 240 110" aria-hidden="true">
-    <g>
-      <rect class="hands__palm" x="10" y="58" width="74" height="48" rx="20" />
-      <rect class="hands__finger hands__finger--pinky" [class.hands__finger--lit]="isLit(fingers.LeftPinky)" x="10" y="34" width="15" height="38" rx="7.5" />
-      <rect class="hands__finger hands__finger--ring" [class.hands__finger--lit]="isLit(fingers.LeftRing)" x="29" y="18" width="15" height="54" rx="7.5" />
-      <rect class="hands__finger hands__finger--middle" [class.hands__finger--lit]="isLit(fingers.LeftMiddle)" x="48" y="10" width="15" height="62" rx="7.5" />
-      <rect class="hands__finger hands__finger--index" [class.hands__finger--lit]="isLit(fingers.LeftIndex)" x="67" y="20" width="15" height="52" rx="7.5" />
-      <rect class="hands__finger hands__finger--thumb" [class.hands__finger--lit]="isLit(fingers.Thumb)" x="86" y="58" width="15" height="36" rx="7.5" transform="rotate(-38 93 62)" />
+  <svg class="hands" viewBox="0 0 280 156" aria-hidden="true">
+    <g transform="translate(6 2)">
+      <path
+        class="hands__palm"
+        d="M 12 108 C 10 95 19 90 30 90 L 86 90 C 99 90 108 97 108 111 L 104 134 C 103 143 95 146 86 146 L 32 146 C 21 146 15 142 14 134 Z"
+      />
+      <rect class="hands__finger hands__finger--pinky" [class.hands__finger--lit]="isLit(fingers.LeftPinky)" x="14" y="52" width="17" height="56" rx="8.5" />
+      <rect class="hands__finger hands__finger--ring" [class.hands__finger--lit]="isLit(fingers.LeftRing)" x="37" y="26" width="17" height="82" rx="8.5" />
+      <rect class="hands__finger hands__finger--middle" [class.hands__finger--lit]="isLit(fingers.LeftMiddle)" x="60" y="18" width="17" height="90" rx="8.5" />
+      <rect class="hands__finger hands__finger--index" [class.hands__finger--lit]="isLit(fingers.LeftIndex)" x="83" y="32" width="17" height="76" rx="8.5" />
+      <rect
+        class="hands__finger hands__finger--thumb"
+        [class.hands__finger--lit]="isLit(fingers.Thumb)"
+        x="95" y="98" width="18" height="46" rx="9" transform="rotate(41 104 104)"
+      />
     </g>
-    <g transform="translate(240 0) scale(-1 1)">
-      <rect class="hands__palm" x="10" y="58" width="74" height="48" rx="20" />
-      <rect class="hands__finger hands__finger--pinky" [class.hands__finger--lit]="isLit(fingers.RightPinky)" x="10" y="34" width="15" height="38" rx="7.5" />
-      <rect class="hands__finger hands__finger--ring" [class.hands__finger--lit]="isLit(fingers.RightRing)" x="29" y="18" width="15" height="54" rx="7.5" />
-      <rect class="hands__finger hands__finger--middle" [class.hands__finger--lit]="isLit(fingers.RightMiddle)" x="48" y="10" width="15" height="62" rx="7.5" />
-      <rect class="hands__finger hands__finger--index" [class.hands__finger--lit]="isLit(fingers.RightIndex)" x="67" y="20" width="15" height="52" rx="7.5" />
-      <rect class="hands__finger hands__finger--thumb" [class.hands__finger--lit]="isLit(fingers.Thumb)" x="86" y="58" width="15" height="36" rx="7.5" transform="rotate(-38 93 62)" />
+    <g transform="translate(274 2) scale(-1 1)">
+      <path
+        class="hands__palm"
+        d="M 12 108 C 10 95 19 90 30 90 L 86 90 C 99 90 108 97 108 111 L 104 134 C 103 143 95 146 86 146 L 32 146 C 21 146 15 142 14 134 Z"
+      />
+      <rect class="hands__finger hands__finger--pinky" [class.hands__finger--lit]="isLit(fingers.RightPinky)" x="14" y="52" width="17" height="56" rx="8.5" />
+      <rect class="hands__finger hands__finger--ring" [class.hands__finger--lit]="isLit(fingers.RightRing)" x="37" y="26" width="17" height="82" rx="8.5" />
+      <rect class="hands__finger hands__finger--middle" [class.hands__finger--lit]="isLit(fingers.RightMiddle)" x="60" y="18" width="17" height="90" rx="8.5" />
+      <rect class="hands__finger hands__finger--index" [class.hands__finger--lit]="isLit(fingers.RightIndex)" x="83" y="32" width="17" height="76" rx="8.5" />
+      <rect
+        class="hands__finger hands__finger--thumb"
+        [class.hands__finger--lit]="isLit(fingers.Thumb)"
+        x="95" y="98" width="18" height="46" rx="9" transform="rotate(41 104 104)"
+      />
     </g>
   </svg>
   <p class="visually-hidden" aria-live="polite">{{ announcement() }}</p>

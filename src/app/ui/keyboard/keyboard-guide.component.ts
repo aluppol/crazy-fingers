@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, linkedSignal } from '@angular/core';
-import { Finger, KeyboardLayout } from '../enums';
+import { Finger, KeyboardLayout, KeyCode } from '../enums';
 import { hintFor, KeyHint } from './key-hint';
 import { KEY_UNITS_PER_ROW, KEYBOARD_LAYOUTS, KeyCap } from './keyboard-layouts';
 
@@ -29,6 +29,8 @@ const SPOKEN_KEY_NAMES: ReadonlyMap<string, string> = new Map([
   [' ', 'Space'],
   ['\n', 'Enter'],
 ]);
+
+const HOME_ANCHOR_CODES: ReadonlySet<KeyCode> = new Set([KeyCode.KeyF, KeyCode.KeyJ]);
 
 function nextGuideState(symbol: string, previousLayout: KeyboardLayout): GuideState {
   const hint = hintFor(symbol, previousLayout);
@@ -79,6 +81,10 @@ export class KeyboardGuideComponent {
 
   public isHeldShift(cap: KeyCap): boolean {
     return cap.code === this.hint()?.shift?.keyCode;
+  }
+
+  public isHomeAnchor(cap: KeyCap): boolean {
+    return HOME_ANCHOR_CODES.has(cap.code);
   }
 
   public isLit(finger: Finger): boolean {
